@@ -1,0 +1,11 @@
+# 1. Ignore everything
+*
+
+# 2. Un-ignore all directories so Git can traverse into them
+!*/
+
+# 3. Now whitelist your file types
+!**/*.cpp
+!**/*.h
+!**/*.hpp
+!.gitignore
