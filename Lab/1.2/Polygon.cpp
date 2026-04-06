@@ -1,17 +1,20 @@
 #include "Polygon.h"
 #include "Vector2D.h"
 #include <cmath>
-#include <sstream>
+// #include <sstream>
 #include <string>
 
 Polygon::Polygon() noexcept { fNumberOfVertices = 0; }
 
 void Polygon::readData(std::istream &aIStream) {
   std::string line;
-  while(std::getline(aIStream,line)) {
-    std::stringstream ss(line); // inorder to read file data as stream
-    float x,y;
-    ss >> fVertices[fNumberOfVertices++];
+  // while(std::getline(aIStream,line)) {
+  //   std::stringstream ss(line); // in order to read file data as stream
+  //   ss >> fVertices[fNumberOfVertices++];
+  // }
+  //
+  while (aIStream >> fVertices[fNumberOfVertices]) {
+    fNumberOfVertices++;
   }
 }
 
