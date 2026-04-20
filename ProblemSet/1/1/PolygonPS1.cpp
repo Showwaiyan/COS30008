@@ -6,5 +6,5 @@ float Polygon::getSignedArea() const {
   for(size_t i = 0; i < fNumberOfVertices; i++) {
     result += fVertices[i].cross(fVertices[(i+1)%fNumberOfVertices]);
   }
-  return result/2;
+  return result/2.0f;
 }
