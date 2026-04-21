@@ -4,7 +4,7 @@ using namespace std;
 
 Polynomial::Polynomial()
 {
-	fDegree = -1;
+	fDegree = 0;
 	for (int i = 0; i <= MAX_DEGREE; i++)
 		fCoeffs[i] = 0;
 }
