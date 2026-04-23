@@ -1,82 +1,90 @@
-#include <iostream>
+// COS30008, Tutorial 3, 2022
+
 #include "Polynomial.h"
+
 using namespace std;
 
-Polynomial::Polynomial()
+Polynomial::Polynomial() :
+    fDegree(0)
 {
-	fDegree = 0;
-	for (int i = 0; i <= MAX_DEGREE; i++)
-		fCoeffs[i] = 0;
-}
-
-bool Polynomial::operator==(const Polynomial& aRHS) const
-{
-	if (fDegree != aRHS.fDegree)
-		return false;
-	for (int i = 0; i <= fDegree; i++)
+	for ( size_t i = 0; i <= MAX_DEGREE; i++ )
 	{
-		if (fCoeffs[i] != aRHS.fCoeffs[i])
-			return false;
+		fCoeffs[i] = 0.0;
 	}
-	return true;
 }
 
-
-
-istream& operator>>(istream& aIStream, Polynomial& aObject)
+bool Polynomial::operator==( const Polynomial& aRHS ) const
 {
-    size_t degree;
-    aIStream >> degree;
+    bool Result = fDegree == aRHS.fDegree;
     
-    aObject.fDegree = degree;
-    
-    for (size_t i = 0; i <= MAX_DEGREE; i++)
+    for ( size_t i = 0; Result && i <= fDegree; i++ )
     {
-        aObject.fCoeffs[i] = 0.0;
+        if ( fCoeffs[i] != aRHS.fCoeffs[i] )
+        {
+            Result = false;
+        }
     }
     
-    for (size_t i = degree; i >= 1; i--)
-    {
-        aIStream >> aObject.fCoeffs[i];
-    }
-    
-    aIStream >> aObject.fCoeffs[0];
-    
-    return aIStream;
+    return Result;
 }
 
-
-
-
-ostream& operator<<(ostream& aOStream, const Polynomial& aObject)
+Polynomial Polynomial::operator*( const Polynomial& aRight ) const
 {
-    for (size_t i = aObject.fDegree; i >= 1; i--)
+    // C = A * B
+    
+	Polynomial Result;
+    
+    Result.fDegree = fDegree + aRight.fDegree;
+    
+    for ( size_t i = 0; i <= fDegree; i++ )
     {
-        aOStream << " " << aObject.fCoeffs[i] << "x^" << i << ((aObject.fCoeffs[i+1]!=0)?"" :" +");
+        for ( size_t j = 0; j <= aRight.fDegree; j++ )
+        {
+            Result.fCoeffs[i+j] += fCoeffs[i] * aRight.fCoeffs[j];
+        }
     }
     
-    if (aObject.fCoeffs[0] != 0) aOStream << " "<< aObject.fCoeffs[0] << "x^" << 0;
+	return Result;
+}
+
+ostream& operator<<( ostream& aOStream, const Polynomial& aObject )
+{
+    bool lMustPrintPlus = false;
+    
+    for ( int i = static_cast<int>(aObject.fDegree); i >= 0; i-- )
+    {
+        if ( aObject.fCoeffs[i] != 0.0 )
+        {
+            if ( lMustPrintPlus )
+            {
+                aOStream << " + ";
+            }
+            else
+            {
+                lMustPrintPlus = true;
+            }
+            
+            aOStream << aObject.fCoeffs[i] << "x^" << i;
+        }
+    }
     
     return aOStream;
 }
-
-
-
-
-
-Polynomial Polynomial::operator*(const Polynomial& aRHS) const
+                
+istream& operator>>( istream& aIStream, Polynomial& aObject )
 {
-	Polynomial result;
+	// read degree
+    size_t lDegree;
+	
+    aIStream >> lDegree;
 
-	result.fDegree = fDegree + aRHS.fDegree;
-	for (int i = fDegree; i>=0; i--)
+    aObject.fDegree = lDegree <= MAX_POLYNOMIAL ? lDegree : MAX_POLYNOMIAL;
+
+	// read coefficients (assume sound input)
+    for ( int i = static_cast<int>(aObject.fDegree); i >= 0; i-- )
 	{
-		for (int j = aRHS.fDegree; j >= 0; j--)
-		{
-			double coeff = fCoeffs[i] * aRHS.fCoeffs[j];
-			size_t degree = i + j;
-			result.fCoeffs[degree] += coeff;
-		}
+		aIStream >> aObject.fCoeffs[i];
 	}
-	return result;
+
+	return aIStream;
 }
