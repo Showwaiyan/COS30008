@@ -7,7 +7,7 @@ SortableIntVector::SortableIntVector(const int aArrayOfIntegers[],
 
 void SortableIntVector::sort(Comparable aOrderFunction) {
   for (size_t i = 1; i < size(); i++) {
-    for (size_t j = 0; j < size() - 1; j++) {
+    for (size_t j = 0; j < size() - i; j++) {
       if (aOrderFunction(get(j), get(j + 1))) {
         swap(j, j + 1);
       }
