@@ -89,17 +89,57 @@ public:
     
 	// P1
 
-    List();                                     // default constructor
+    List() :
+        fRoot(nullptr),
+        fCount(0)
+    {}
 
-	bool empty() const;	                        // Is list empty?
-	size_t size() const;                		// list size
+    bool empty() const
+    {
+        return fRoot == nullptr;
+    }
 
-	void push_front( const T& aElement );	    // adds aElement at front
+    size_t size() const
+    {
+        return fCount;
+    }
 
-    Iterator begin() const;                     // return a forward iterator
-    Iterator end() const;                       // return a forward end iterator
-    Iterator rbegin() const;                    // return a backwards iterator
-    Iterator rend() const;                      // return a backwards end iterator
+    void push_front( const T& aElement )
+    {
+        Node* lNode = new Node( aElement );
+        
+        if ( fRoot == nullptr )
+        {
+            fRoot = lNode;
+        }
+        else
+        {
+            fRoot->push_front( *lNode );
+            fRoot = lNode;
+        }
+        
+        fCount++;
+    }
+
+    Iterator begin() const
+    {
+        return Iterator( fRoot );
+    }
+
+    Iterator end() const
+    {
+        return Iterator( fRoot ).end();
+    }
+
+    Iterator rbegin() const
+    {
+        return Iterator( fRoot ).rbegin();
+    }
+
+    Iterator rend() const
+    {
+        return Iterator( fRoot ).rend();
+    }
 
 	// P2
 	
