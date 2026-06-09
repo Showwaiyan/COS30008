@@ -159,7 +159,21 @@ public:
 
 	// P3
 
-    const T& operator[]( size_t aIndex ) const;	// list indexer
+    const T& operator[]( size_t aIndex ) const  // list indexer
+    {
+        if ( aIndex >= fCount )
+        {
+            throw std::out_of_range( "Index out of bounds." );
+        }
+        
+        const Node* lNode = fRoot;
+        for ( size_t i = 0; i < aIndex; ++i )
+        {
+            lNode = &lNode->getNext();
+        }
+        
+        return **lNode;
+    }
 
 	// P4
 	
