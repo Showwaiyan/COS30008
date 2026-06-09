@@ -199,12 +199,60 @@ public:
         return *this;
     }
     
-	// P5
+    List( List&& aOtherList ) :                 // move constructor
+        fRoot( aOtherList.fRoot ),
+        fCount( aOtherList.fCount )
+    {
+        aOtherList.fRoot = nullptr;
+        aOtherList.fCount = 0;
+    }
 
-    List( List&& aOtherList );            		// move constructor
-    List& operator=( List&& aOtherList );       // move assignment operator
+    List& operator=( List&& aOtherList )        // move assignment operator
+    {
+        if ( this != &aOtherList )
+        {
+            this->~List();
+            fRoot = aOtherList.fRoot;
+            fCount = aOtherList.fCount;
+            
+            aOtherList.fRoot = nullptr;
+            aOtherList.fCount = 0;
+        }
+        
+        return *this;
+    }
 
-    void push_front( T&& aElement );			// move push_front
-    void push_back( T&& aElement );				// move push_back
+    void push_front( T&& aElement )             // move push_front
+    {
+        Node* lNode = new Node( std::move( aElement ) );
+        
+        if ( fRoot == nullptr )
+        {
+            fRoot = lNode;
+        }
+        else
+        {
+            fRoot->push_front( *lNode );
+            fRoot = lNode;
+        }
+        
+        fCount++;
+    }
+
+    void push_back( T&& aElement )              // move push_back
+    {
+        Node* lNode = new Node( std::move( aElement ) );
+        
+        if ( fRoot == nullptr )
+        {
+            fRoot = lNode;
+        }
+        else
+        {
+            fRoot->push_front( *lNode );
+        }
+        
+        fCount++;
+    }
 };
 
