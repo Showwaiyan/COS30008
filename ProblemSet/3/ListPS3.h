@@ -175,10 +175,29 @@ public:
         return **lNode;
     }
 
-	// P4
-	
-    List( const List& aOtherList );             // copy constructor
-    List& operator=( const List& aOtherList );	// assignment operator
+    List( const List& aOtherList ) :            // copy constructor
+        fRoot( nullptr ),
+        fCount( 0 )
+    {
+        *this = aOtherList;
+    }
+
+    List& operator=( const List& aOtherList )   // assignment operator
+    {
+        if ( this != &aOtherList )
+        {
+            this->~List();
+            fRoot = nullptr;
+            fCount = 0;
+            
+            for ( const T& lElement : aOtherList )
+            {
+                push_back( lElement );
+            }
+        }
+        
+        return *this;
+    }
     
 	// P5
 
