@@ -141,9 +141,21 @@ public:
         return Iterator( fRoot ).rend();
     }
 
-	// P2
-	
-	void push_back( const T& aElement );        // adds aElement at back
+    void push_back( const T& aElement )         // adds aElement at back
+    {
+        Node* lNode = new Node( aElement );
+        
+        if ( fRoot == nullptr )
+        {
+            fRoot = lNode;
+        }
+        else
+        {
+            fRoot->push_front( *lNode );
+        }
+        
+        fCount++;
+    }
 
 	// P3
 
