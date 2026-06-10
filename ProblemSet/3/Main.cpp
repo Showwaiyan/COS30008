@@ -9,10 +9,10 @@
 
 using namespace std;
 
-// #define P0
-// #define P1
-// #define P2
-// #define P3
+#define P0
+#define P1
+#define P2
+#define P3
 #define P4
 #define P5
 

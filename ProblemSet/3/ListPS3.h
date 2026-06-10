@@ -141,6 +141,8 @@ public:
         return Iterator( fRoot ).rend();
     }
 
+	// P2
+
     void push_back( const T& aElement )         // adds aElement at back
     {
         Node* lNode = new Node( aElement );
@@ -175,6 +177,8 @@ public:
         return **lNode;
     }
 
+	// P4
+
     List( const List& aOtherList ) :            // copy constructor
         fRoot( nullptr ),
         fCount( 0 )
@@ -199,6 +203,8 @@ public:
         return *this;
     }
     
+	// P5
+
     List( List&& aOtherList ) :                 // move constructor
         fRoot( aOtherList.fRoot ),
         fCount( aOtherList.fCount )
