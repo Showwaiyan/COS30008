@@ -23,15 +23,58 @@ private:
     
 public:
 
-    BinarySearchTree();
+    BinarySearchTree() :
+        fRoot( &BNode::NIL )
+    {}
 
-    ~BinarySearchTree();
+    ~BinarySearchTree()
+    {
+        if ( fRoot != &BNode::NIL )
+        {
+            delete fRoot;
+        }
+    }
 
-    bool empty() const;
-    size_t height() const;
+    bool empty() const
+    {
+        return fRoot->empty();
+    }
+
+    size_t height() const
+    {
+        if ( empty() )
+        {
+            throw std::domain_error( "Empty tree has no height." );
+        }
+        return fRoot->height();
+    }
     
-    bool insert( const T& aKey );
-    bool remove( const T& aKey );
+    bool insert( const T& aKey )
+    {
+        if ( empty() )
+        {
+            fRoot = new BNode( aKey );
+            return true;
+        }
+        return fRoot->insert( aKey );
+    }
+
+    bool remove( const T& aKey )
+    {
+        if ( empty() )
+        {
+            return false;
+        }
+
+        if ( fRoot->key == aKey && fRoot->leaf() )
+        {
+            delete fRoot;
+            fRoot = &BNode::NIL;
+            return true;
+        }
+
+        return fRoot->remove( aKey, &BNode::NIL );
+    }
 
 	// Problem 3 methods
     
@@ -43,3 +86,15 @@ public:
     Iterator begin() const;
     Iterator end() const;
 };
+
+template<typename T>
+typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::begin() const
+{
+    return Iterator( *this ).begin();
+}
+
+template<typename T>
+typename BinarySearchTree<T>::Iterator BinarySearchTree<T>::end() const
+{
+    return Iterator( *this ).end();
+}
