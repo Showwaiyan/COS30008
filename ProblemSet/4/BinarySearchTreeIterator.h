@@ -37,3 +37,70 @@ public:
     Iterator begin() const;
     Iterator end() const;
 };
+
+template<typename T>
+void BinarySearchTreeIterator<T>::pushLeft( BTreeNode aNode )
+{
+    while ( !aNode->empty() )
+    {
+        fStack.push( aNode );
+        aNode = aNode->left;
+    }
+}
+
+template<typename T>
+BinarySearchTreeIterator<T>::BinarySearchTreeIterator( const BSTree& aBSTree ) :
+    fBSTree( aBSTree )
+{}
+
+template<typename T>
+const T& BinarySearchTreeIterator<T>::operator*() const
+{
+    return fStack.top()->key;
+}
+
+template<typename T>
+typename BinarySearchTreeIterator<T>::Iterator& BinarySearchTreeIterator<T>::operator++()
+{
+    BTreeNode lNode = fStack.top();
+    fStack.pop();
+    pushLeft( lNode->right );
+    return *this;
+}
+
+template<typename T>
+typename BinarySearchTreeIterator<T>::Iterator BinarySearchTreeIterator<T>::operator++(int)
+{
+    Iterator lCopy = *this;
+    ++(*this);
+    return lCopy;
+}
+
+template<typename T>
+bool BinarySearchTreeIterator<T>::operator==( const Iterator& aOtherIter ) const
+{
+    return &fBSTree == &aOtherIter.fBSTree && fStack == aOtherIter.fStack;
+}
+
+template<typename T>
+bool BinarySearchTreeIterator<T>::operator!=( const Iterator& aOtherIter ) const
+{
+    return !( *this == aOtherIter );
+}
+
+template<typename T>
+typename BinarySearchTreeIterator<T>::Iterator BinarySearchTreeIterator<T>::begin() const
+{
+    Iterator lCopy = *this;
+    lCopy.fStack = BTNStack();
+    lCopy.pushLeft( fBSTree.fRoot );
+    return lCopy;
+}
+
+template<typename T>
+typename BinarySearchTreeIterator<T>::Iterator BinarySearchTreeIterator<T>::end() const
+{
+    Iterator lCopy = *this;
+    lCopy.fStack = BTNStack();
+    return lCopy;
+}
