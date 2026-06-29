@@ -4,8 +4,8 @@
 #include <iostream>
 
 // #define P1
-#define P2
-//#define P3
+// #define P2
+#define P3
 
 
 #if defined(P1)
@@ -67,7 +67,7 @@ int main()
 
 #if defined(P3)
     
-    FisherAndYatesSorter lSorter3( lArray, lSize );
+    FisherAndYatesSorter<int> lSorter3( lArray, lSize );
 
     std::cout << "Testing FisherAndYatesSorter." << std::endl;
     std::cout << "The array before sorting:" << std::endl;
