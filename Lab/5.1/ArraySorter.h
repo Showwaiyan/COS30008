@@ -33,7 +33,7 @@ public:
     T temp = aLeft; 
     aLeft = aRight;
     aRight = temp;
-    swapCount()++;
+    fSwapCount++;
   }
 
   T &operator[](size_t aIndex) const noexcept {

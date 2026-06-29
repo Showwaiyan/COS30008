@@ -3,8 +3,8 @@
 
 #include <iostream>
 
-#define P1
-//#define P2
+// #define P1
+#define P2
 //#define P3
 
 
@@ -50,7 +50,7 @@ int main()
 
 #if defined(P2)
     
-    BubbleSorter lSorter2( lArray, lSize );
+    BubbleSorter<int> lSorter2( lArray, lSize );
 
     std::cout << "Testing BubbleSorter." << std::endl;
     std::cout << "The array before sorting:" << std::endl;
